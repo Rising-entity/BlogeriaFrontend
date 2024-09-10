@@ -20,9 +20,9 @@ export default function Home(props) {
                 <div className='Home flex justify-center items-center mx-auto min-h-[100vh]'>
                 </div>
 
-                <div className="container min-h-[80vh] mx-[auto] my-[46px] text-[#454545] ">
+                <div className=" min-h-[80vh] mx-[auto] my-[46px] text-[#454545] ">
                     <h1 className='text-center text-[34px] font-bold m-[20px]'>How It Works</h1>
-                    <div className='grid sm:grid-cols-3 gap-[3.5rem] justify-items-center'>
+                    <div className=' container mx-auto grid sm:grid-cols-3 gap-[3.5rem] justify-items-center'>
                         <div className='[box-shadow:0px_1px_7px_gray] rounded-[8px]  sm:w-[100%] w-[80%]'>
                             <div>
                                 <img className='w-[80%] block mx-auto' src={writeBlog} alt="" />
