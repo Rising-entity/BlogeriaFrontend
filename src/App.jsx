@@ -22,6 +22,29 @@ function App() {
   const [imageFile, setImageFile] = useState(null);
 
   const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    getmyData();
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  //updation of myblog
+  const [myJson, setmyJson] = useState([]);
+  const getmyData = async () => {
+    try {
+      let decoded = jwtDecode(sessionStorage.getItem("token"));
+      let res = await fetch(`${VITE_API_URL}/getBlogByid/${decoded._id}`);
+      const response = await res.json();
+      if (response.success) {
+        setmyJson(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const uploadImg = async (file) => {
     try {
       const formData = new FormData();
@@ -36,9 +59,7 @@ function App() {
       console.log("Error uploading image");
     }
   };
-  useEffect(() => {
-    getData();
-  }, []);
+
 
   async function getData() {
     let res = await fetch(`${VITE_API_URL}/getBlog`)
@@ -50,10 +71,10 @@ function App() {
   async function createblog() {
     let decoded = null;
     decoded = jwtDecode(sessionStorage.getItem("token"));
- 
+
     let imageUrl;
-  
-     if (!title) {
+
+    if (!title) {
       toast.error("enter Title");
       return false;
     }
@@ -68,7 +89,7 @@ function App() {
 
     try {
       imageUrl = await uploadImg(imageFile);
-      console.log("imageurl", imageUrl);
+      // console.log("imageurl", imageUrl);
     }
     catch (error) {
       console.log("error in uploading image")
@@ -90,6 +111,7 @@ function App() {
     if (res.ok) {
       toast.success('Blog is created successfully!');
       getData();
+      console.log("called to home page get data after creating blog");
       const json = await res.json();
 
       setBlog(!blog);
@@ -109,6 +131,9 @@ function App() {
 
   }
 
+
+
+
   return (
     <>
 
@@ -122,8 +147,8 @@ function App() {
             <Route exact path='/login' element={< Login />}></Route>
             <Route exact path='/SignUp' element={<SignUp />}></Route>
             <Route exact path='/' element={< Home json={json} />}></Route>
-            <Route exact path='/Myblogs' element={< Myblogs blog={blog} />}></Route>
-            <Route exact path='/createBlog' element={< CreateBlog setTitle={setTitle} setBody={setBody} setAuthor={setAuthor} createblog={createblog} setImageFile={setImageFile} />}></Route>
+            <Route exact path='/Myblogs' element={< Myblogs blog={blog} Json={myJson} getData={getmyData} getHomedata={getData} />}></Route>
+            <Route exact path='/createBlog' element={< CreateBlog setTitle={setTitle} setBody={setBody} setAuthor={setAuthor} createblog={createblog} setImageFile={setImageFile} getData={getmyData} />}></Route>
           </Routes>
         </div>
       </Router>

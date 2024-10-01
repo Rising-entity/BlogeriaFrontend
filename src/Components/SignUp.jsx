@@ -45,7 +45,7 @@ export default function SignUp() {
         <>
             {
                 loader ? (<div className='w-full h-screen flex justify-center items-center'>
-                    <img className="w-[6%]" src={loaderimg} alt="" />
+                    <img loading="lazy" className="w-[6%]" src={loaderimg} alt="" />
                 </div>) :
                     (
                         <div className="login flex items-center justify-center ">

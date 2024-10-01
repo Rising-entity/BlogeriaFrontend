@@ -25,7 +25,7 @@ export default function Home(props) {
                     <div className=' container mx-auto grid sm:grid-cols-3 gap-[3.5rem] justify-items-center'>
                         <div className='[box-shadow:0px_1px_7px_gray] rounded-[8px]  sm:w-[100%] w-[80%]'>
                             <div>
-                                <img className='w-[80%] block mx-auto' src={writeBlog} alt="" />
+                                <img loading="lazy" className='w-[80%] block mx-auto' src={writeBlog} alt="" />
                             </div>
                             <div>
                                 <p className='text-center text-[20px] font-bold'>Write Blogs</p>
@@ -35,7 +35,7 @@ export default function Home(props) {
                         </div>
                         <div className='[box-shadow:0px_1px_7px_gray] rounded-[8px] sm:w-[100%] w-[80%] '>
                             <div>
-                                <img className='w-[80%] block mx-auto' src={seeBlog} alt="" />
+                                <img loading="lazy" className='w-[80%] block mx-auto' src={seeBlog} alt="" />
                             </div>
                             <div>
                                 <p className='text-center text-[20px] font-bold'>See Other's Blogs</p>
@@ -45,7 +45,7 @@ export default function Home(props) {
                         </div>
                         <div className='[box-shadow:0px_1px_7px_gray] rounded-[8px] sm:w-[100%] w-[80%] '>
                             <div>
-                                <img className='w-[80%] block mx-auto' src={post} alt="" />
+                                <img loading="lazy" className='w-[80%] block mx-auto' src={post} alt="" />
                             </div>
                             <div>
                                 <p className='text-center text-[20px] font-bold'>Post Blogs</p>
@@ -71,7 +71,7 @@ export default function Home(props) {
                                 return (
                                     <div key={index} className='border border-[#00000045] p-[10px] rounded-[10px]'>
                                         <div>
-                                            <img className='w-full h-[200px] object-cover rounded-[10px]' src={element.firebaseImageUrl} alt="image" />
+                                            <img loading="lazy" className='w-full h-[200px] object-cover rounded-[10px]' src={element.firebaseImageUrl} alt="image" />
                                         </div>
 
                                         <div className='mt-[10px]'>

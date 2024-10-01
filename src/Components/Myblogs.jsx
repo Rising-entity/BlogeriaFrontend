@@ -7,32 +7,33 @@ export default function Myblogs(props) {
     const navigate = useNavigate();
     const VITE_API_URL = import.meta.env.VITE_API_URL;
 
-    const [Json, setJson] = useState([]);
+    // const [Json, setJson] = useState([]);
     const [editIndex, setEditIndex] = useState(null);
     const [editTitle, setEditTitle] = useState('');
     const [editBody, setEditBody] = useState('');
     const [editImage, setEditImage] = useState(null);
     const [expanded, setExpanded] = useState({}); // New state for managing read more/less
 
-    const getData = async () => {
-        try {
-            let decoded = jwtDecode(sessionStorage.getItem("token"));
-            let res = await fetch(`${VITE_API_URL}/getBlogByid/${decoded._id}`);
-            const response = await res.json();
-            if (response.success) {
-                setJson(response.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // const getData = async () => {
+    //     try {
+    //         let decoded = jwtDecode(sessionStorage.getItem("token"));
+    //         let res = await fetch(`${VITE_API_URL}/getBlogByid/${decoded._id}`);
+    //         const response = await res.json();
+    //         if (response.success) {
+    //             setJson(response.data);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const handleDelete = async (id) => {
         try {
             await fetch(`${VITE_API_URL}/deleteBlog/${id}`, {
                 method: 'DELETE',
             });
-            getData();
+            props.getData();
+            props.getHomedata();
         } catch (error) {
             console.log(error);
         }
@@ -57,6 +58,7 @@ export default function Myblogs(props) {
         let imageUrl = null;
         if (editImage) {
             imageUrl = await handleImageUpload(editImage);
+            console.log(imageUrl);
         }
 
         try {
@@ -66,12 +68,14 @@ export default function Myblogs(props) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    firebaseImageUrl: imageUrl || Json[editIndex].firebaseImageUrl,
+                    firebaseImageUrl: imageUrl || props.Json[editIndex].firebaseImageUrl,
+                    // firebaseImageUrl: imageUrl,
                     title: editTitle,
                     body: editBody
                 }),
             });
-            getData();
+            props.getData();
+            props.getHomedata();
             setEditIndex(null);
         } catch (error) {
             console.log(error);
@@ -91,18 +95,19 @@ export default function Myblogs(props) {
         }));
     };
 
-    useEffect(() => {
-        getData();
-    }, [props.blog]);
+
+    // useEffect(() => {
+    //     getData();
+    // }, [props.blog]);
 
     return (
         <>
-            {Json.length !== 0 ? (
+            {props.Json.length !== 0 ? (
                 <>
-                <p className='mt-[5px]  text-center text-[24px] font-bold text-[#636262]'>my blogs</p>
+                    <p className='mt-[5px]  text-center text-[24px] font-bold text-[#636262]'>my blogs</p>
                     <div className="flex justify-center items-center my-[20px] text-[#454545] w-full">
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4'>
-                            {Json.map((element, index) => (
+                            {props.Json.map((element, index) => (
                                 <div key={index} className='border border-[#00000045] p-4 rounded-lg'>
                                     {editIndex === index ? (
                                         <div>
@@ -125,7 +130,7 @@ export default function Myblogs(props) {
                                                 onChange={(e) => setEditBody(e.target.value)}
                                             />
                                             <div className='my-2 text-blue-500'>
-                                                <label htmlFor="id">Update Image</label>
+                                                <label htmlFor="img">Update Image</label>
                                             </div>
                                             <input
                                                 onChange={(e) => setEditImage(e.target.files[0])}
@@ -144,7 +149,7 @@ export default function Myblogs(props) {
                                         </div>
                                     ) : (
                                         <div className='[word-wrap:break-word]'>
-                                            <img className='w-full h-[200px] object-cover rounded' src={element.firebaseImageUrl} alt="" />
+                                            <img loading="lazy" className='w-full h-[200px] object-cover rounded' src={element.firebaseImageUrl} alt="" />
                                             <p className='text-[16px] font-bold text-[#0074d0] border-b-2'>{element.title}</p>
                                             <p className='mt-2 text-[14px] text-[#454545]'>
                                                 {expanded[index] ? element.body : `${element.body.substring(0, 100)}...`}

@@ -7,10 +7,11 @@ export default function CreateBlog(props) {
 
     async function create() {
         setCheck(true);
-        const success = await props.createblog()
-        setCheck(false)
+        const success = await props.createblog();
+        setCheck(false);
         console.log(success);
         if (success) {
+            props.getData();
             navigate('/Myblogs');
         }
 
@@ -24,8 +25,8 @@ export default function CreateBlog(props) {
     return (
 
         <>{check ? (
-            <div>
-                <img src={spinner} alt="" className='block mx-[auto] my-[10px] w-[100px]' />
+            <div className='h-[86vh] flex justify-center items-center'>
+                <img loading="lazy" src={spinner} alt="" className='block mx-[auto] my-[10px] w-[100px]' />
             </div>
         ) :
 

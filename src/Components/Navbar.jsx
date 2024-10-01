@@ -37,7 +37,7 @@ export default function Navbar() {
         <nav className=" mx-auto mb-[10px] w-[100%] [box-shadow:-2px_-6px_19px_gray] sticky top-0 bg-[white] pt-[10px] pb-[10px] text-[#3c3c3c]">
             <div className="container mx-auto flex justify-between items-center">
                 <Link to="/">
-                    <img src={homeLogo} alt="logo" className='w-[110px]' />
+                    <img loading="lazy" src={homeLogo} alt="logo" className='w-[110px]' />
                 </Link>
                 <button
                     className=" block sm:hidden focus:outline-none"
